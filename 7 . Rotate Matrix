@@ -1,0 +1,37 @@
+from math import *
+from collections import *
+from sys import *
+from os import *
+
+def rotateMatrix(mat, n, m):
+    #using spiral matrix approch
+    top, down, left, right = 0, n-1, 0, m-1
+    prev = 0
+    while(top < down and left < right):
+        prev = mat[top][left]
+        for i in range(left+1, right+1):
+            tmp = mat[top][i]
+            mat[top][i] = prev
+            prev = tmp
+        top += 1
+
+        for i in range(top, down+1):
+            tmp = mat[i][right]
+            mat[i][right] = prev
+            prev = tmp
+        right -= 1
+
+        for i in range(right, left-1, -1):
+            tmp = mat[down][i]
+            mat[down][i] = prev
+            prev = tmp
+        down -= 1
+
+        for i in range(down, top-1, -1):
+            tmp = mat[i][left]
+            mat[i][left] = prev
+            prev = tmp
+        left += 1
+        mat[top-1][left-1] = prev
+    
+    #print(prev)
