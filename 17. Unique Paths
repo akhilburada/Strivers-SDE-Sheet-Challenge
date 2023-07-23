@@ -1,0 +1,31 @@
+'''
+def helper(si, sj, n, m, dp):
+	#base case
+	if(si == n-1 and sj == m-1):
+		return 1
+	if(si < 0 or sj < 0 or si >= n or sj >= m):
+		return 0
+	#print('si =', si, 'sj =', sj)
+	if(dp[si][sj] != -1):
+		return dp[si][sj]
+	#right
+	r = helper(si, sj+1, n, m, dp)
+	#down
+	d = helper(si+1, sj, n, m, dp)
+	dp[si][sj] = r+d
+	return dp[si][sj]
+'''
+
+def uniquePaths(n, m):
+	# Write your code here.
+	dp = [[0 for j in range(m+1)] for i in range(n+1)]
+	for i in range(n):
+		dp[i][m-1] = 1
+	for j in range(m):
+		dp[n-1][j] = 1
+	for i in range(n-2, -1, -1):
+		for j in range(m-2, -1, -1):
+			r = dp[i][j+1]
+			d = dp[i+1][j]
+			dp[i][j] = r+d
+	return dp[0][0]
