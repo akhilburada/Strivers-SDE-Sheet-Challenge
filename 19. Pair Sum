@@ -1,0 +1,22 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+def pairSum(l1, s):
+    # Write your code here.
+    res = []
+    mp = {}
+    n = len(l1)
+    for i in range(n):
+        #a + b = s
+        #a = s - b
+        if(s-l1[i] in mp):
+            tmp = [l1[i], s-l1[i]]
+            tmp.sort()
+            for j in range(mp[s-l1[i]]):
+                res.append(tmp)
+        mp[l1[i]] = mp.get(l1[i], 0) + 1
+    res.sort()
+    return res
+    
