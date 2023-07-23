@@ -1,0 +1,15 @@
+from math import *
+from collections import *
+from sys import *
+from os import *
+
+def findMajorityElement(arr, n):
+	tot = floor(n/2)
+	mp = {}
+	for i in range(n):
+		mp[arr[i]] = mp.get(arr[i], 0) + 1
+
+	for k in mp:
+		if(mp[k] > tot):
+			return k
+	return -1
