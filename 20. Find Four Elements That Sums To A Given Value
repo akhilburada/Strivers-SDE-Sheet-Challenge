@@ -1,0 +1,37 @@
+from math import *
+from collections import *
+from sys import *
+from os import *
+
+def fourSum(l1, target):
+    n = len(l1)
+    '''
+    for i in range(n-2):
+        for j in range(i+1, n-1):
+            mp = {}
+            a, b = l1[i], l1[j]
+            for k in range(j+1, n):
+                c = l1[k]
+                #a + b + c + d = s
+                #a + b + c = s - d
+                if((target - (a+b+c)) in mp):
+                    return 'Yes'
+                mp[c] = mp.get(c, 0) + 1
+    return 'No'
+    '''
+    mp = {}
+    for i in range(n-1):
+        for j in range(i+1, n):
+            mp[l1[i]+l1[j]] = [i,j]
+            #tmp.append(l1[i]+l1[j])
+
+    
+    for i in range(n-1):
+        for j in range(i+1, n):
+            if(target-(l1[i]+l1[j]) in mp):
+                p = mp[target-(l1[i]+l1[j])]
+                if(p[0] != i and p[0] != j and p[1] != i and p[1] != j):
+                    return 'Yes'
+        #mp[tmp[i]] = mp.get(tmp[i], 0) + 1
+    return 'No'
+
