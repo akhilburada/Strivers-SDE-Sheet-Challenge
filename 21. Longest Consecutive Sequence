@@ -1,0 +1,22 @@
+from math import *
+from collections import *
+from sys import *
+from os import *
+
+def lengthOfLongestConsecutiveSequence(l1, n):
+    l1.sort()
+    res = 1
+    nxt = l1[-1]
+    mx = 1
+    for i in range(n-2, -1, -1):
+        if(l1[i]+1 == nxt):
+            mx += 1
+            nxt = l1[i]
+        elif(l1[i] == nxt):
+            nxt = l1[i]
+        else:
+            nxt = l1[i]
+            mx = 1
+        res = max(res, mx)
+    return res
+        
