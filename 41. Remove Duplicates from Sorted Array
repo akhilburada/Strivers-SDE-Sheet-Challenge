@@ -1,0 +1,4 @@
+def removeDuplicates(arr,n):
+    arr = list(set(arr))
+    arr.sort()
+    return len(arr)
