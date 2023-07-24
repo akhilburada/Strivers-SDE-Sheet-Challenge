@@ -1,0 +1,35 @@
+class Node:
+    def __init__(self, data):
+
+        self.data = data
+        self.next = None
+        self.child = None
+
+    def __del__(self):
+        if(self.next):
+            del self.next
+
+def twoMergeSort(l1,l2):
+    dummy = current =  Node(0)
+    if l1 == None:
+        return l1
+    if l2 == None:
+        return l2
+    
+    while l1 and l2:
+        if l1.data < l2.data:
+            current.child = l1
+            l1 = l1.child
+        else:
+            current.child = l2 
+            l2 = l2.child
+        current = current.child
+    current.child = l1 or l2
+    return dummy.child
+
+def flattenLinkedList(root):
+    if root == None or root.next == None:
+        return root
+    root.next = flattenLinkedList(root.next)
+    root = twoMergeSort(root, root.next)
+    return root
