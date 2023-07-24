@@ -1,0 +1,17 @@
+def longestSubSeg(l1, n, k):
+    mxLen = 0
+    cz = 0
+    strt = 0
+    for end in range(n):
+        if(l1[end] == 0):
+            cz += 1
+        if(cz > k):
+            #shrink the window till it is good
+            while(strt < end and cz > k):
+                if(l1[strt] == 0):
+                    cz -= 1
+                strt += 1
+
+        else:
+            mxLen = max(mxLen, end-strt+1)
+    return mxLen
