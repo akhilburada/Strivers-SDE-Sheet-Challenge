@@ -1,0 +1,21 @@
+
+global res 
+res = []
+def helper(s, n, path):
+	global res
+	if(len(path) == n):
+		res.append(''.join(path))
+		return
+
+	for i in range(len(s)):
+		path.append(s[i])
+		helper(s[:i]+s[i+1:], n, path)
+		path.pop()
+
+def findPermutations(s):
+	#print(s)
+	global res
+	res = []
+	helper(list(s), len(s), [])
+	#res.sort()
+	return res
