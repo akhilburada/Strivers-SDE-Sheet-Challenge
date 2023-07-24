@@ -1,0 +1,18 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+def maximumValue(items, n, w):
+	items.sort(key = lambda x : x[1]/x[0], reverse = True)
+	res = 0
+	#print(items)
+	for i in range(n):
+		if(items[i][0] <= w):
+			w -= items[i][0]
+			res += items[i][1]
+		else:
+			res += items[i][1] / items[i][0] * w
+			break
+
+	return res
