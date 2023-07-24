@@ -1,0 +1,49 @@
+import copy
+x4 = [-1, 0, 1, 0]
+y4 = [0, 1, 0, -1]
+global res
+res = []
+def helper(maze, n, si, sj, vis):
+    #print('si =', si, 'sj =', sj)
+    global res
+    if(si == n-1 and sj == n-1):
+        vis[n-1][n-1] = 1
+        tmp = []
+        for i in range(n):
+            for j in range(n):
+                tmp.append(vis[i][j])
+        res.append(tmp)
+        vis[n-1][n-1] = 0
+        return
+    vis[si][sj] = 1
+    #print(vis)
+    for d in range(4):
+        ni = si + x4[d]
+        nj = sj + y4[d]
+        #print('ni =', ni, 'nj =', nj)
+        if((ni >= 0) and (nj >= 0) and (ni < n) and (nj < n) and (maze[ni][nj] == 1) and (vis[ni][nj] == 0)):
+            #print('we r in if', 'ni =', ni, 'nj =', nj)
+            helper(maze, n, ni, nj, vis)
+            #vis[ni][nj] = 1
+
+    vis[si][sj] = 0
+
+
+
+def ratInAMaze(maze, n):
+    global res
+    res = []
+    vis = [[0 for j in range(n)] for i in range(n)]
+    helper(maze, n, 0, 0, vis)
+    for i in range(len(res)):
+        print(*res[i])
+
+# Main.
+n = int(input())
+maze = n*[0]
+
+for i in range(0 , n):
+    maze[i]=input().split()
+    maze[i]=[int(j) for j in maze[i]]
+    
+ratInAMaze(maze , n) 
