@@ -1,0 +1,38 @@
+from sys import *
+from collections import *
+from math import *
+
+def isPossible(adjList, node, col, colors):
+    for neighbour in adjList[node]:
+        if(colors[neighbour] == col):
+            return False
+        return True
+
+def solve(adjList, node, n, m, colors):
+    if(node == n):
+        return True
+
+    #for node in range(0,n):
+    for col in range(1, m+1):
+        if(isPossible(adjList, node, col, colors)):
+            colors[node] = col
+            if(solve(adjList, node+1, n, m, colors)):
+                return True
+            else:
+                colors[node] = 0
+
+    return False
+
+
+def graphColoring(mat,m):
+    adjList = [[] for i in range(len(mat))]
+    for i in range(len(mat)):
+        for j in range(len(mat[0])):
+            if(mat[i][j] == 1):
+                adjList[i].append(j)
+                adjList[j].append(i)
+    
+    colors = [0 for i in range(m)]
+    return solve(adjList, 0, len(mat), m, colors)
+
+
