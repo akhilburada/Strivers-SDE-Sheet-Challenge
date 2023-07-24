@@ -1,0 +1,24 @@
+from typing import List
+global res
+res = []
+def helper(l1, n, si, target, path):
+    global res
+    if(target < 0):
+        return
+    if(target == 0):
+        res.append(path.copy())
+    for i in range(si, n):
+        if(i > si and l1[i] == l1[i-1]):
+            continue
+        path.append(l1[i])
+        helper(l1, n, i+1, target-l1[i], path)
+        path.pop()
+
+
+def combinationSum2(arr: List[int], n: int, target: int) -> List[List[int]]:
+    # Write your code here.
+    global res
+    res = []
+    arr.sort()
+    helper(arr, n, 0, target, [])
+    return res
