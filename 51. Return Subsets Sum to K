@@ -1,0 +1,12 @@
+def subsets(arr, i, n, k, sum_, subset, res):
+    if i == n:
+        if sum_ == k:
+            res.append(subset)
+        return
+    subsets(arr, i + 1, n, k, sum_ + arr[i], subset + [arr[i]], res)
+    subsets(arr, i + 1, n, k, sum_, subset, res)
+
+def findSubsetsThatSumToK(arr, n, k) :
+    res = []
+    subsets(arr, 0, n, k, 0, [], res)
+    return res
