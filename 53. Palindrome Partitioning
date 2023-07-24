@@ -1,0 +1,44 @@
+#from os import *
+from sys import *
+from collections import *
+from math import *
+
+global res
+res = []
+
+def isPalindrome(s, i, j):
+    return s[i:j+1] == s[i:j+1][::-1]
+
+def helper(s, n, si, path):
+    global res
+    if(si == n):
+        res.append(path.copy())
+        return
+
+
+    for idx in range(si, n):
+        if(isPalindrome(s, si, idx)):
+            path.append(s[si:idx+1])
+            helper(s, n, idx+1, path)
+            path.pop()
+
+
+def partition(s):
+    print(s)
+    # Write your code here.
+    global res
+    res = []
+    helper(s, len(s), 0, path)
+    return res
+    
+
+s=input()
+
+final=partition(s)
+
+for ele in final:
+    ele = sorted(ele)
+    print('[ ', end= '')
+    for i in ele:
+        print('\"\"', i, end = ',')
+    print(']')
