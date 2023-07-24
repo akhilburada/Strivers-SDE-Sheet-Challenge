@@ -1,0 +1,78 @@
+import copy
+'''
+def isSafeToPlaceAQueen(board, n, row, col):
+    i, j = row, col
+    while(i >= 0 and j >= 0):
+        if(board[i][j] == 1):
+            return False
+        i -= 1
+        j -= 1
+    
+    i, j = row, col
+    while(j >= 0):
+        if(board[i][j] == 1):
+            return False
+        j -= 1
+
+    i, j = row, col
+    while(i < n and j >= 0):
+        if(board[i][j] == 1):
+            return False
+        i += 1
+        j -= 1
+    
+    return True
+
+
+def solve(board, n, col, res):
+    if(col == n):
+        tmp = []
+        for i in range(n):
+            tmp.extend(board[i])
+        res.append(copy.deepcopy(tmp))
+        return
+
+
+    for row in range(n):
+        if(isSafeToPlaceAQueen(board, n, row, col)):
+            board[row][col] = 1
+            solve(board, n, col+1, res)
+            board[row][col] = 0
+'''
+
+def isSafeAndMarkHash(board, n, row, col, upperDiagonal, left, lowerDiagonal):
+    if(left[row] or upperDiagonal[n-1+col-row] or lowerDiagonal[row+col]):
+        return False
+    left[row] = 1
+    upperDiagonal[n-1+col-row] = 1
+    lowerDiagonal[row+col] = 1
+    return True
+
+def unmarkHash(board, n, row, col, upperDiagonal, left, lowerDiagonal):
+    left[row] = 0
+    upperDiagonal[n-1+col-row] = 0
+    lowerDiagonal[row+col] = 0
+
+def solve1(board, n, col, res, upperDiagonal, left, lowerDiagonal):
+    if(col == n):
+        tmp = []
+        for i in range(n):
+            tmp.extend(board[i])
+        res.append(copy.deepcopy(tmp))
+        return
+
+    for row in range(n):
+        if(isSafeAndMarkHash(board, n, row, col, upperDiagonal, left, lowerDiagonal)):
+            board[row][col] = 1
+            solve1(board, n, col+1, res, upperDiagonal, left, lowerDiagonal)
+            board[row][col] = 0
+            unmarkHash(board, n, row, col, upperDiagonal, left, lowerDiagonal)
+
+def solveNQueens(n):
+    board = [[0 for j in range(n)] for i in range(n)]
+    res = []
+    left = [0 for i in range(n)]
+    upperDiagonal = [0 for i in range(2*n-1)]
+    lowerDiagonal = [0 for i in range(2*n-1)]
+    solve1(board, n, 0, res, upperDiagonal, left, lowerDiagonal)
+    return res
