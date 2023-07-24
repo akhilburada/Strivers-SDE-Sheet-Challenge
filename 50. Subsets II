@@ -1,0 +1,22 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+from typing import *
+
+def helper(arr, si, n, path, res):
+    res.append(path.copy())  
+    #print('res =', res)
+    for i in range(si, n):
+        if(i != si and arr[i] == arr[i-1]):
+            continue
+        path.append(arr[i])
+        helper(arr, i+1, n, path, res)
+        path.pop()
+  
+def uniqueSubsets(n :int,arr :List[int]) -> List[List[int]]:
+    arr.sort()
+    res = []
+    helper(arr, 0, n, [], res)
+    #print(res)
+    return res
