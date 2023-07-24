@@ -1,0 +1,12 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+def kMaxSumCombination(a, b, n, k):
+	res = []
+	for i in range(n-1):
+		for j in range(i+1, n):
+			res.append(a[i]+b[j])
+	res.sort()
+	return res[:k]
