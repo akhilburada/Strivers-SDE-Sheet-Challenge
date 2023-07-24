@@ -1,0 +1,24 @@
+class Node:
+    def __init__(self, val, next=None):
+        self.data = val
+        self.next = next
+
+
+def rotate(head: Node, k: int) -> Node:
+    tmp = []
+    cur = head
+    while(cur):
+        tmp.append(cur.data)
+        cur = cur.next
+    n = len(tmp)
+    k = k % n
+
+    tmp = tmp[n-k:] + tmp[:n-k]
+    cur = head
+    i = 0
+    while(cur):
+        cur.data = tmp[i]
+        i += 1
+        cur = cur.next
+    return head
+
