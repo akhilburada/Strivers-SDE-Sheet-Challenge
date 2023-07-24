@@ -1,0 +1,13 @@
+import heapq
+def minHeap(n: int, q: [[]]) -> []:
+    # Write your code frome here.
+    hq = []
+    heapq.heapify(hq)
+    res = []
+    for i in range(n):
+        if(q[i][0] == 0):
+            heapq.heappush(hq, q[i][1])
+        else:
+            res.append(heapq.heappop(hq))
+    return res
+
