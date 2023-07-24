@@ -1,0 +1,18 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+def getTrappedWater(l1, n) :
+	left = [0 for i in range(n)]
+	right = [0 for i in range(n)]
+	left[0] = l1[0]
+	for i in range(1, n):
+		left[i] = max(left[i-1], l1[i])
+	right[-1] = l1[-1]
+	for i in range(n-2, -1, -1):
+		right[i] = max(right[i+1], l1[i])
+	res = 0
+	for i in range(n):
+		res += min(left[i], right[i])-l1[i]
+	return res
