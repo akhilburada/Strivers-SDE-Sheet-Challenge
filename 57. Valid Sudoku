@@ -1,0 +1,26 @@
+def isValid(mat, row, col, newNum):
+    for i in range(9):
+        if(mat[row][i] == newNum):
+            return False
+        if(mat[i][col] == newNum):
+            return False
+        if(mat[3*(row//3) + i // 3][3*(col//3)+ i % 3] == newNum):
+            return False
+    return True
+
+def solve(mat):
+    for i in range(9):
+        for j in range(9):
+            if(mat[i][j] == 0):
+                for c in range(1,9+1):
+                    if(isValid(mat, i, j, c)):
+                        mat[i][j] = c
+                        if(solve(mat)):
+                            return True
+                        else:
+                            mat[i][j] = 0
+                return False
+    return True
+
+def isItSudoku(mat):
+    return solve(mat)
