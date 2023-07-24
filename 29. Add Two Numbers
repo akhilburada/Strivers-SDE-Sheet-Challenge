@@ -1,0 +1,31 @@
+class Node:
+    def __init__(self, data=0, next=None):
+        self.data = data
+        self.next = next
+
+
+# Don't change the code above.
+
+
+def addTwoNumbers(h1: Node, h2: Node) -> Node:
+    # Write your code here.
+    n1 = ''
+    n2 = ''
+    curr1 = h1
+    while(curr1):   
+        n1 = str(curr1.data) + n1
+        curr1 = curr1.next
+    n1 = int(n1)
+    curr2 = h2
+    while(curr2):   
+        n2 = str(curr2.data) + n2
+        curr2 = curr2.next
+    n2 = int(n2)
+    #print('n1 =', n1, 'n2 =', n2)
+    n = str(n1+n2)[::-1]
+    #print('n =', n)
+    res = d = Node()
+    for i in n:
+        d.next = Node(i)
+        d = d.next
+    return res.next
