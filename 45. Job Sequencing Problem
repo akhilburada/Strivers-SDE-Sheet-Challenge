@@ -1,0 +1,29 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+def jobScheduling(jobs):
+
+    # Write your code here
+    # Return an integer denoting the maximum pofit  
+    jobs.sort(reverse = True, key = lambda x : x[1])
+    mxDeadLine = 0
+    n = len(jobs)
+    for i in range(n):
+        mxDeadLine = max(mxDeadLine, jobs[i][0])
+    mxProfit = 0
+    #print(jobs)
+    seq = [0 for i in range(mxDeadLine+1)]
+    for i in range(n):
+        deadline, profit = jobs[i]
+        if(seq[deadline] == 0):
+            seq[deadline] = 1
+            mxProfit += profit
+        else:
+            for j in range(deadline-1, 0, -1):
+                if(seq[j] == 0):
+                    seq[j] = 1
+                    mxProfit += profit
+                    break
+    return mxProfit
