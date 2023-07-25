@@ -1,0 +1,26 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+'''
+    Following is the Binary Tree node structure:
+    class TreeNode:
+        def __init__(self, data=0, left=None, right=None):
+            self.data = data
+            self.left = left
+            self.right = right
+'''
+
+def helper(root, l1):
+    if not root:
+        return 
+    helper(root.left, l1)
+    l1.append(root.data)
+    helper(root.right, l1)
+
+
+def getInOrderTraversal(root):
+    inorder = []
+    helper(root, inorder)
+    return inorder
