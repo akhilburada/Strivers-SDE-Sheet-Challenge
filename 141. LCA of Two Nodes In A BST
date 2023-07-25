@@ -1,0 +1,31 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+# Binary Tree node structure
+class   TreeNode :
+    def __init__(self, data) :
+        self.data = data
+        self.left = None
+        self.right = None
+
+    def __del__(self):
+        if self.left:
+            del self.left
+        if self.right:
+            del self.right
+
+
+def LCAinaBST(root, p, q):
+    if not root:
+        return None
+    if(root.data == p.data or root.data == q.data):
+        return root
+    l = LCAinaBST(root.left, p, q)
+    r = LCAinaBST(root.right, p, q)
+    if(l and r):
+        return root
+    return l if(l) else r
+        
+    
