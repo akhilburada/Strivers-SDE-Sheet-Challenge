@@ -1,0 +1,74 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+class Node:
+    def __init__(self):
+        self.links = [None for i in range(26)]
+        self.ew = 0
+        self.cp = 0
+    def containsKey(self, ch):
+        return self.links[ord(ch) - ord('a')] != None
+    def put(self, ch, node):
+        self.links[ord(ch) - ord('a')] = node
+    def get(self, ch):
+        return self.links[ord(ch) - ord('a')]
+
+    def incrementPrefix(self):
+        self.cp += 1
+    def decrementPrefix(self):
+        self.cp -= 1
+    def countPrefix(self):
+        return self.cp
+
+    def incrementEnd(self):
+        self.ew += 1
+    def decrementEnd(self):
+        self.ew -= 1
+    def endWith(self):
+        return self.ew
+
+
+class Trie:
+    def __init__(self):
+        self.root = Node()
+
+    def insert(self, word):
+        node = self.root
+        for i in word:
+            if not node.containsKey(i):
+                node.put(i, Node())
+            node = node.get(i)
+            node.incrementPrefix()
+        node.incrementEnd()
+
+    def countWordsEqualTo(self, word):
+        node = self.root
+        for i in word:
+            if node.containsKey(i):
+                node = node.get(i)
+            else:
+                return 0
+        #------------------
+        return node.endWith()
+
+
+    def countWordsStartingWith(self, word):
+        node = self.root
+        for i in word:
+            if node.containsKey(i):
+                node = node.get(i)
+            else:
+                return 0
+        return node.countPrefix()
+
+    def erase(self, word):
+        node = self.root
+        for i in word:
+            if node.containsKey(i):
+                node = node.get(i)
+                node.decrementPrefix()
+            #else:
+            #    return 0
+        node.decrementEnd()
