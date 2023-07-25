@@ -1,0 +1,32 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+from typing import List
+
+
+class TreeNode:   
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+
+def helper(root, path, x):
+    if not root:
+        return False
+    #if node is leaf check wheather it is x or not
+    
+    if(root.data == x):
+        path.append(root.data)
+        return True
+    if(helper(root.left, path, x) or helper(root.right, path, x)):
+        path.append(root.data)
+        return True 
+    return False
+
+def pathInATree(root: TreeNode, x: int) -> List[int]:
+    path = []
+    helper(root, path, x)
+    return path[::-1]
+    
