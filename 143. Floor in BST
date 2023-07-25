@@ -1,0 +1,30 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+    Following is the TreeNode class structure
+
+    class TreeNode:
+
+        def __init__ (self, data):
+
+            self.data = data
+            self.left = None
+            self.right = None
+            
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+def floorInBST(root, x):
+    floor=-1
+    while root:
+        if root.data==x:
+            floor=root.data
+            return floor
+        if root.data<x:
+            floor=root.data
+            root=root.right
+        else:
+            root=root.left
+    return floor
