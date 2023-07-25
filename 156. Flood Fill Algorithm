@@ -1,0 +1,19 @@
+x4 = [-1, 0, 1, 0]
+y4 = [0, 1, 0, -1]
+def helper(image, n, m, si, sj, changeCol, newColor, vis):
+    vis[si][sj] = 1
+    image[si][sj] = newColor 
+    for d in range(4):
+        ni = si + x4[d]
+        nj = sj + y4[d]
+        if(ni >= 0 and nj >= 0 and ni < n and nj < m and image[ni][nj] == changeCol and vis[ni][nj] == 0):
+            helper(image, n, m, ni, nj, changeCol, newColor, vis)
+
+def floodFill(image, x, y, newColor):
+    # Write your Code here.
+    #0 based indexing
+    n, m = len(image), len(image[0])
+    vis = [[0 for j in range(m)] for i in range(n)]
+    changeCol = image[x][y]
+    helper(image, n, m, x,y, changeCol, newColor, vis)
+    return image
