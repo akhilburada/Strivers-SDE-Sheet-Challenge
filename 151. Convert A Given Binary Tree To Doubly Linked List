@@ -1,0 +1,38 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+''' 
+    class BinaryTreeNode:
+        def __init__(self, data):
+            self.data = data
+            self.left = None
+            self.right = None
+'''
+class Node:
+    def __init__(self, value):
+        self.left = None
+        self.data = value
+        self.right = None 
+
+
+def inOrder(root, tmp):
+    if not root:
+        return
+    inOrder(root.left, tmp)
+    tmp.append(root.data)
+    inOrder(root.right, tmp)
+
+def BTtoDLL(root):
+    # Write your code here.
+    tmp = []
+    inOrder(root, tmp)
+    res = Node(0)
+    curr = res
+    for i in tmp:
+        curr.right = Node(i)
+        curr = curr.right
+    return res.right
+
+
+
