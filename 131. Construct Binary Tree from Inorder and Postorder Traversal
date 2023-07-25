@@ -1,0 +1,28 @@
+'''
+
+	Following is the TreeNode class structure
+
+	class   TreeNode :
+    	def __init__(self, val) :
+        	self.data = data
+        	self.left = None
+        	self.right = None
+
+'''
+
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+
+def getTreeFromPostorderAndInorder(postOrder, inOrder):
+	# Write your code here.
+	if not postOrder or not inOrder:
+		return None
+	root = Node(postOrder[-1])
+	mid = inOrder.index(postOrder[-1])
+	root.left = getTreeFromPostorderAndInorder(postOrder[:mid], inOrder[:mid])
+	root.right = getTreeFromPostorderAndInorder(postOrder[mid:-1], inOrder[mid+1:])
+	return root
+
