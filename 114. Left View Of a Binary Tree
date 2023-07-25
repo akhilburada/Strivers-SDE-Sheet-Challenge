@@ -1,0 +1,43 @@
+#from os import *
+from sys import *
+from collections import *
+from math import *
+from collections import deque
+# Binary tree node class for reference
+class BinaryTreeNode:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+
+def getLeftView(root)->list:
+    if not root:
+        return []
+    dq = deque()
+    dq.append(root)
+    res = []
+    while(dq):
+        size = len(dq)
+        tmp = []
+        for i in range(size):
+            f = dq.popleft()
+            tmp.append(f.data)
+            if(f.left):
+                dq.append(f.left)
+            if(f.right):
+                dq.append(f.right)
+        res.append(tmp)
+
+    ret = []
+    for i in range(len(res)):
+        ret.append(res[i][0])
+    return ret
+
+
+
+
+
+
+
+
+
