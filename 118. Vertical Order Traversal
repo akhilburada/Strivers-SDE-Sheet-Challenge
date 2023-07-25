@@ -1,0 +1,35 @@
+from sys import *
+from collections import *
+from math import *
+
+'''
+# Binary tree node class for reference
+class BinaryTreeNode:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+'''
+
+def verticalOrderTraversal(root):
+    if not root:
+        return []
+    dq = deque()
+    mp = defaultdict(list)
+    dq.append([root, 0])
+    while(dq):
+        size = len(dq)
+        for i in range(size):
+            n, hd = dq.popleft()
+            if(n.left):
+                dq.append([n.left, hd-1])
+            if(n.right):
+                dq.append([n.right, hd+1])
+            mp[hd].append(n.data)
+
+    res = []
+    #print(mp)
+    for k in sorted(mp):
+        res.extend(mp[k])
+    #print('a', res)
+    return res
