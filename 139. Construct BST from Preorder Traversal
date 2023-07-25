@@ -1,0 +1,28 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+
+from typing import List
+
+class TreeNode:
+    def __init__(self, val):
+        self.val = val
+        self.left = None
+        self.right = None
+
+def helper(preOrder, inOrder):
+    if(not preOrder or not inOrder):
+        return None
+    root = TreeNode(preOrder[0])
+    mid = inOrder.index(preOrder[0])
+    root.left = helper(preOrder[1:mid+1], inOrder[:mid])
+    root.right = helper(preOrder[mid+1:], inOrder[mid+1:])
+    return root
+
+def preOrderTree(preOrder: List[int]) -> TreeNode:
+    inOrder = sorted(preOrder)
+    return helper(preOrder, inOrder)
+
+
