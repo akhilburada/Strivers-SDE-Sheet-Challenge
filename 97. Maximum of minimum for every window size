@@ -1,0 +1,77 @@
+from collections import defaultdict
+import heapq
+
+class Heap:
+    def __init__(self):
+        self.heap = []
+        self.deleted = defaultdict(int)
+
+    def push(self, val):
+        heapq.heappush(self.heap, val)
+
+    def clean(self):
+        while len(self.heap) > 0 and self.heap[0] in self.deleted:
+            self.deleted[self.heap[0]] -= 1
+            if self.deleted[self.heap[0]] == 0:
+                del self.deleted[self.heap[0]]
+            heapq.heappop(self.heap)
+
+    def __len__(self):
+        self.clean()
+        return len(self.heap)
+    
+    def min(self):
+        self.clean()
+        return self.heap[0]
+    
+    def __repr__(self):
+        return str(self.deleted)
+    
+    def delete(self, val):
+        self.deleted[val] += 1
+
+    def pop(self):
+        self.clean()
+        return heapq.heappop(self.heap)
+
+def apply(arr, queries):
+    n = len(arr)
+    adds = [Heap() for _ in range(n + 1)]
+    subs = [Heap() for _ in range(n + 1)]
+    for l, r, M in queries:
+        adds[l].push(-M)
+        subs[r + 1].push(-M)
+    curr = Heap()
+    for i in range(n):
+        if len(curr) < len(adds[i]):
+            curr, adds[i] = adds[i], curr
+        while len(adds[i]) > 0:
+            curr.push(adds[i].pop())
+        if len(curr) < len(subs[i]):
+            curr, subs[i] = subs[i], curr
+        while len(subs[i]) > 0:
+            curr.delete(subs[i].pop())
+        if len(curr) > 0:
+            arr[i] = max(arr[i], -curr.min())
+    return arr
+
+def maxMinWindow(arr, n):
+    stack = []
+    next_smaller = [n] * n
+    prev_smaller = [-1] * n
+    for i in range(n):
+        while len(stack) > 0 and arr[i] < arr[stack[-1]]:
+            curr = stack.pop()
+            next_smaller[curr] = i
+        if len(stack) > 0:
+            prev_smaller[i] = stack[-1]
+        stack.append(i)
+    res = 0
+    queries = []
+    for i in range(n):
+        l = prev_smaller[i]
+        r = next_smaller[i]
+        queries.append((1, r - l - 1, arr[i]))
+    res = [float('-inf')] * (n + 1)
+    apply(res, queries)
+    return res[1:]
