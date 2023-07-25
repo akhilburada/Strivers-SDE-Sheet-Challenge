@@ -1,0 +1,25 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+def countDistinctElements(l1, k):
+    res = []
+    n = len(l1)
+    mp = {}
+    strt = 0
+    for i in range(n):
+        if(i < (k-1)):
+            mp[l1[i]] = mp.get(l1[i], 0) + 1
+            continue 
+        mp[l1[i]] = mp.get(l1[i], 0) + 1
+        res.append(len(mp))
+        if(mp[l1[strt]] == 1):
+            del mp[l1[strt]]
+        else:
+            mp[l1[strt]] -= 1
+        strt += 1
+
+    return res
+
+        
