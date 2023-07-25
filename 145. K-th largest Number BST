@@ -1,0 +1,26 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+'''
+
+    ------- Binary Tree node structure --------
+            class TreeNode :
+                def __init__(self, data):
+                    self.data = data
+                    self.left = None
+                    self.right = None
+                    
+                def __del__(self):
+                    if self.left:
+                        del self.left
+                    if self.right:
+                        del self.right
+                        
+'''
+
+def KthLargestNumber(root, k):
+
+	# Write your code here.
+	pass
