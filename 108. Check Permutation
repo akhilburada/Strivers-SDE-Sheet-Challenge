@@ -1,0 +1,16 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+def areAnagram(s1, s2):
+    n1 = len(s1)
+    n2 = len(s2)
+    if(n1 != n2):
+        return 0
+
+    s1 = list(s1)
+    s1.sort()
+    s2 = list(s2)
+    s2.sort()
+    return 1 if(s1 == s2) else 0
