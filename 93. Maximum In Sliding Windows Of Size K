@@ -1,0 +1,27 @@
+from sys import *
+from collections import *
+from math import *
+import heapq
+def slidingWindowMaximum(l1:list, k:int):
+	hq = []
+	heapq.heapify(hq)
+	n = len(l1)
+	res = []
+	for i in range(n):
+		if(i < (k-1)):
+			heapq.heappush(hq, [-l1[i], i])
+			continue
+		heapq.heappush(hq, [-l1[i], i])
+		while(True):
+			val, idx = hq[0]
+			val = -val
+			if(idx > (i-k)):
+				res.append(val)
+				break
+			else:
+				heapq.heappop(hq)
+	return res
+
+
+		
+			
