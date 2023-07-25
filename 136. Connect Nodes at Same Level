@@ -1,0 +1,30 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+   
+class BinaryTreeNode:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+        self.next = None
+
+from collections import deque
+def connectNodes(root):
+    dq = deque()
+    dq.append(root)
+    while(dq):
+        size = len(dq)
+        tmp = []
+        for i in range(size):
+            f = dq.popleft()
+            tmp.append(f)
+            if f.left:
+                dq.append(f.left)
+            if(f.right):
+                dq.append(f.right)
+        for i in range(len(tmp)-1):
+            tmp[i].next = tmp[i+1]
+    return root
