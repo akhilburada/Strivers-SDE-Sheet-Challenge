@@ -1,0 +1,95 @@
+#from sys import *
+#from collections import *
+#from math import *
+'''
+from typing import *
+class Node:
+    def __init__(self):
+        self.links = [None, None]
+
+    def containsKey(self, ch):
+        return self.links[ch] != None
+
+    def put(self, ch, node):
+        self.links[ch] = node
+
+    def get(self, ch):
+        return self.links[ch]
+
+class Trie:
+    def __init__(self):
+        self.root = Node()
+
+    def insert(self, num):
+        node = self.root
+        for i in range(31, -1, -1):
+            bit = (num >> i) & 1
+            if(not node.containsKey(bit)):
+                node.put(bit, Node())
+            node = node.get(bit)    
+
+    def findMaxXOR(self, num):
+        node = self.root
+        ans = 0
+        for i in range(31, -1, -1):
+            bit = (num >> i) & 1
+            if(node.containsKey(1-bit)):
+                ans = ans | (1 << i)
+                node = node.get(1-bit)
+            else:
+                node = node.get(bit)
+        return ans
+
+
+
+def maximumXor(l1: List[int]) -> int:
+    trie = Trie()
+    n = len(l1)
+    for i in range(n):
+        trie.insert(l1[i])
+
+    mx = 0
+    for i in range(n):
+        mx = max(mx, trie.findMaxXOR(l1[i]))
+    return mx
+'''
+
+from typing import *
+
+class TrieNode:
+    def __init__(self):
+        self.children = dict()                       
+        self.val = 0   
+
+class Trie:
+    def __init__(self, n):
+        self.root = TrieNode()                    
+        self.n = n   # max length of all numbers
+        
+    def add_num(self, num):
+        node = self.root 
+        for shift in range(self.n, -1, -1):        # only shift self.n bits 
+            val = 1 if num & (1 << shift) else 0   # verify bit from left to right 
+            if val not in node.children:
+                node.children[val] = TrieNode()
+            node = node.children[val]
+        node.val = num
+        
+def maximumXor(nums: List[int]) -> int:
+    # get max length of all numbers' binary & build trie
+    max_len = len(bin(max(nums))) - 2 
+    trie = Trie(max_len)
+    for num in nums: 
+        trie.add_num(num)        
+        
+    ans = 0
+    # for each num, find the number which can create max value with num using XOR
+    for num in nums:   
+        node = trie.root 
+        for shift in range(max_len, -1, -1):
+            val = 1 if num & (1 << shift) else 0  # verify bit from left to right
+            # try opposite bit first, otherwise use same bit
+            node = node.children[1-val] if 1-val in node.children else node.children[val] 
+        ans = max(ans, num ^ node.val)  # maintain maxim
+    return ans    
+
