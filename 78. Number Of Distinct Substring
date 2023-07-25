@@ -1,0 +1,17 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+def distinctSubstring(word):
+    #print(word)
+    mp = {}
+    n = len(word)
+    for i in range(n):
+        s = ''
+        for j in range(i,n):
+            s += word[j]
+            if s not in mp:
+                mp[s] = 1
+    #print(mp)
+    return len(mp)
