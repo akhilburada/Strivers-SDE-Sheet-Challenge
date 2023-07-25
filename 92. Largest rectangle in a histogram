@@ -1,0 +1,24 @@
+def largestRectangle(l1):
+    n = len(l1)
+    rtl = [-1 for i in range(n)]
+    ltr = [n for i in range(n)]
+    #right to left
+    stk = []
+    for i in range(n-1, -1, -1):
+        while(stk and l1[i] < l1[stk[-1]]):
+            rtl[stk[-1]] = i
+            stk.pop()
+        stk.append(i)
+    stk.clear()
+    #left to right
+    for i in range(n):
+        while(stk and l1[i] < l1[stk[-1]]):
+            ltr[stk[-1]] = i
+            stk.pop() 
+        stk.append(i)
+    #print(rtl)
+    #print(ltr)
+    res = 0
+    for i in range(n):
+        res = max(res, l1[i]*(ltr[i]-rtl[i]-1))
+    return res
