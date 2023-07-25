@@ -1,0 +1,27 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+class Queue :
+
+    #Define data members and __init__()
+    def __init__(self):
+        self.queue = []
+    '''----------------- Public Functions of Queue -----------------'''
+   
+    def isEmpty(self) :
+        #Implement the isEmpty() function
+        return True if(not self.queue) else False
+
+    def enqueue(self, data) :
+        #Implement the enqueue(element) function
+        self.queue.append(data)
+
+    def dequeue(self) :
+        #Implement the dequeue() function
+        return self.queue.pop(0) if(self.queue) else -1
+
+    def front(self) :
+        #Implement the front() function 
+        return self.queue[0] if(self.queue) else -1
