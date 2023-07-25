@@ -1,0 +1,31 @@
+from typing import *
+#import os
+def dfs(adjList, node, vis, path):
+    vis[node] = 1
+    path.append(node)
+    for i in range(len(adjList[node])):
+        if not vis[adjList[node][i]]:
+            #path.append(adjList[node][i])
+            dfs(adjList, adjList[node][i], vis, path)
+
+def depthFirstSearch(v: int, e: int, edges: List[Dict[int, int]]):
+    edge = []
+    for i in range(e):
+        edge.append(list(edges[i]))
+    adjList = [[] for i in range(v)]
+    for u1,v1 in edge:
+        adjList[u1].append(v1)
+        adjList[v1].append(u1)
+    res = []
+    components = 0
+    vis = [0 for i in range(v)]
+    for i in range(v):
+        if not vis[i]:
+            #print(' we r in if')
+            path = []
+            components += 1
+            dfs(adjList, i, vis, path)
+            res.append(path)
+    for i in range(components):
+        res[i].sort()
+    return res
