@@ -1,0 +1,44 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+def helper(adjList, node, vis, res):
+    dq = deque()
+    dq.append(node)
+    vis[node] = 1
+    while(dq):
+        size = len(dq)
+        #print('dq =', dq)
+        for i in range(size):
+            f = dq.popleft()
+            res.append(f)
+            vis[f] = 1
+            for j in range(len(adjList[f])):
+                if(vis[adjList[f][j]] == 0):
+                    dq.append(adjList[f][j])
+                    vis[adjList[f][j]] = 1
+
+def BFS(vertex, edges):
+    # Write your solution here
+    # 'vertex' is the number of vertices present in the graph
+    # 'edges' is a matrix of the set of edges between two given vertices in the graph 
+    #print(vertex, edges)
+    #return []
+    #print(vertex, edges)
+    #return []
+    vis = [0 for i in range(vertex)]
+    adjList = [[] for i in range(vertex)]
+    for i in range(len(edges[0])):
+        u, v = edges[0][i], edges[1][i]
+        adjList[u].append(v)
+        adjList[v].append(u)
+    for i in range(len(adjList)):
+        adjList[i].sort()
+    res = []
+    for i in range(vertex):
+        if(not vis[i]):
+            helper(adjList, i, vis, res)
+    #print(res)
+    return res
+
+
