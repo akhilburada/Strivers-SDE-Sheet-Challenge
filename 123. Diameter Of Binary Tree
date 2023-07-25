@@ -1,0 +1,24 @@
+
+# Binary tree node class for reference
+class BinaryTreeNode:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+
+global mx
+mx = 0
+def helper(root):
+    global mx
+    if not root:
+        return 0
+    lh = helper(root.left)
+    rh = helper(root.right)
+    mx = max(mx, lh+rh)
+    return 1 + max(lh,rh)
+
+def diameterOfBinaryTree(root):
+    global mx
+    mx = 0
+    helper(root)
+    return mx
