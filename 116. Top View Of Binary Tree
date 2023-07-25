@@ -1,0 +1,89 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+from sys import stdin, setrecursionlimit
+from queue import Queue
+setrecursionlimit(10**7)
+
+# Following is the TreeNode class structure:
+class BinaryTreeNode:
+    def __init__(self, data):
+        self.val = data
+        self.left = None
+        self.right = None
+
+def getTopView(root):
+    if not root:
+        return []
+    mp = {}
+    dq = deque()
+    dq.append([root, 0])
+    while(dq):
+        size = len(dq)
+        for i in range(size):
+            node, hd = dq.popleft()
+            if(node.left):
+                dq.append([node.left, hd-1])
+            if(node.right):
+                dq.append([node.right, hd+1])
+            if(hd not in mp):
+                mp[hd] = node.val
+            #else:
+    res = []
+    for k in sorted(mp):
+        res.append(mp[k])
+    return res
+
+# Taking input.
+def takeInput():
+
+    arr = list(map(int, stdin.readline().strip().split(" ")))
+
+    rootData = arr[0]
+
+    n = len(arr)
+
+    if(rootData == -1):
+        return None
+
+    root = BinaryTreeNode(rootData)
+    q = Queue()
+    q.put(root)
+    index = 1
+    while(q.qsize() > 0):
+        currentNode = q.get()
+
+        leftChild = arr[index]
+
+        if(leftChild != -1):
+            leftNode = BinaryTreeNode(leftChild)
+            currentNode.left = leftNode
+            q.put(leftNode)
+
+        index += 1
+        rightChild = arr[index]
+
+        if(rightChild != -1):
+            rightNode = BinaryTreeNode(rightChild)
+            currentNode .right = rightNode
+            q.put(rightNode)
+
+        index += 1
+
+    return root
+
+# Printing the tree nodes.
+def printAns(ans):
+    for x in ans:
+        print(x, end=" ")
+    print()
+
+
+# Main.
+T = int(stdin.readline().strip())
+for i in range(T):
+    root = takeInput()
+    ans = getTopView(root)
+    printAns(ans)
