@@ -1,0 +1,32 @@
+from collections import deque
+def minTimeToRot(grid, n, m):
+    freshOranges = 0
+    dq = deque()
+    for i in range(n):
+        for j in range(m):
+            if(grid[i][j] == 1):
+                freshOranges += 1
+
+            if(grid[i][j] == 2):
+                dq.append([i,j])
+    if not freshOranges:
+        return 0
+    vis = [[0 for j in range(m)] for i in range(n)]
+    time = -1
+    x4 = [-1, 0, 1, 0]
+    y4 = [0, 1, 0, -1]
+    while(dq):
+        size = len(dq)
+        #print('ll')
+        for i in range(size):
+            si,sj = dq.popleft()
+            for d in range(4):
+                ni = si + x4[d]
+                nj = sj + y4[d]
+                if(ni >= 0 and nj >= 0 and ni < n and nj < m and vis[ni][nj] == 0 and grid[ni][nj] == 1):
+                    vis[ni][nj] = 1
+                    dq.append([ni,nj])
+                    freshOranges -= 1
+        time += 1
+    return -1 if(freshOranges) else time
+
