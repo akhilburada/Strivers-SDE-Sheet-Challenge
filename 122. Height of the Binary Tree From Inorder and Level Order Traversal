@@ -1,0 +1,56 @@
+
+
+import sys
+sys.setrecursionlimit(10**7)
+class Node:
+	def __init__(self, val = 0, left = None, right = None):
+		self.val = val
+		self.left = left
+		self.right = right
+
+def helper(inorder, levelOrder):
+	if not inorder or not levelOrder:
+		return None
+
+	root = Node(levelOrder[0])
+	mid = inorder.index(levelOrder[0])
+	levelLeft, levelRight = [], []
+	inLeft, inRight = {}, {}
+	for i in range(0, mid):
+		inLeft[inorder[i]] = 1
+	for i in range(mid+1, len(inorder)):
+		inRight[inorder[i]] = 1
+	for i in range(1, len(levelOrder)):
+		if levelOrder[i] in inLeft:
+			levelLeft.append(levelOrder[i])
+		if levelOrder[i] in inRight:
+			levelRight.append(levelOrder[i])
+
+	root.left = helper(inorder[:mid], levelLeft)
+	root.right = helper(inorder[mid+1:], levelRight)
+	return root
+
+def findHeight(root):
+	if not root:
+		return 0
+	return 1 + max(findHeight(root.left), findHeight(root.right))
+
+def heightOfTheTree(inorder, levelOrder, N):	
+	root = helper(inorder, levelOrder)
+	return findHeight(root)-1
+
+	
+
+
+# Taking input.
+def takeInput() :
+	n = int(input().strip())
+	inorder = list(map(int, sys.stdin.readline().strip().split(" ")))
+	levelOrder = list(map(int, sys.stdin.readline().strip().split(" ")))
+	return n, inorder, levelOrder
+
+# Main.
+t = int(input().strip())
+for i in range(t):
+	n, inorder, levelOrder = takeInput()
+	print(heightOfTheTree(inorder, levelOrder, n))
