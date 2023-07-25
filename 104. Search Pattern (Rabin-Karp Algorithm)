@@ -1,0 +1,30 @@
+def comp(s1,s2,i):
+    if s1[i:i+len(s2):1]==s2:
+        return True
+    return False
+
+def stringMatch(str, pat):
+    s1 = str
+    s2 = pat
+    po = len(s2)-1
+
+    hv = 0
+    htemp = 0
+    ans = []
+    for i in range(len(s2)):
+        hv += (10**(po)) * ord(s2[i])
+        htemp += (10**(po)) * ord(s1[i])
+        po-=1
+
+
+
+    if hv==htemp:
+        ans.append(0)
+
+    for i in range(1,len(s1)-len(s2)+1):
+        htemp -= ord(s1[i-1]) * (10**(len(s2)-1))
+        htemp = 10*htemp
+        htemp += ord(s1[i+len(s2)-1])
+        if htemp==hv and comp(s1,s2,i):
+            ans.append(i+1)
+    return ans
