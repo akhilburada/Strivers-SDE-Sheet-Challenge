@@ -1,0 +1,65 @@
+#from os import *
+from sys import *
+from collections import *
+from math import *
+
+from typing import *
+
+class Node:
+    def __init__(self):
+        self.links = [None for i in range(26)]
+        self.flag = False
+
+    def containsKey(self, ch):
+        return self.links[ord(ch) - ord('a')] != None
+
+    def put(self, ch, node):
+        self.links[ord(ch) - ord('a')] = node
+
+    def get(self, ch):
+        return self.links[ord(ch) - ord('a')]
+    
+    def setEnd(self):
+        self.flag = True
+
+    def isEnd(self):
+        return self.flag
+
+    
+class Trie:
+    def __init__(self):
+        self.root = Node()
+
+    def insert(self, word):
+        node = self.root
+        for i in word:
+            if(not node.containsKey(i)):
+                node.put(i, Node())
+            node = node.get(i)
+        node.setEnd()
+
+    def search(self, word):
+        node = self.root
+        for i in range(len(word)):
+            ch = word[i]
+            if(not node.containsKey(ch)):
+                return None
+            if(i != 0 and not node.isEnd()):
+                return None
+            node = node.get(ch)
+        return word
+
+
+
+def completeString(n: int, words: List[str])-> str:
+    mx = ''
+    trie = Trie()
+    for i in range(n):
+        trie.insert(words[i])
+
+    for i in range(n):
+        tmp = trie.search(words[i])
+        #print('tmp =', tmp)
+        if(tmp != None and len(mx) <= len(tmp)):
+            mx = tmp
+    return mx if(mx) else None
