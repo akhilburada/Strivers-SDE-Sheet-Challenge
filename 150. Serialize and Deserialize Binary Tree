@@ -1,0 +1,68 @@
+class TreeNode:
+    def __init__(self, data) :
+        self.data = data
+        self.left = None
+        self.right = None
+
+    def __del__(self):
+        if self.left:
+            del self.left
+        if self.right:
+            del self.right
+from collections import deque
+def serializeTree(root):
+    if not root:
+        return ''
+    #levelOrder
+    tmp = ''
+    dq = deque()
+    dq.append(root)
+    while(dq):
+        size = len(dq)
+        for i in range(size):
+            f = dq.popleft()
+            if(f == '#'):
+                tmp += f + '+'
+                continue
+            tmp += str(f.data) + '+'
+            if f.left:
+                dq.append(f.left)
+            else:
+                dq.append('#')
+                #tmp += '#' + '+'
+            if(f.right):
+                dq.append(f.right)
+            else:
+                dq.append('#')
+                #tmp += '#' + '+'
+    return tmp
+
+def deserializeTree(serialized):
+    if not serialized:
+        return None
+    serialized = serialized.split('+')
+    serialized = serialized[:-1]
+    #serialized.pop()
+    #print('serialized =', serialized)
+    s = serialized[::-1]
+    #print('s =', s)
+    dq = deque()
+    top = s.pop()
+    root = TreeNode(int(top))
+    dq.append(root)
+    while(dq):
+        f = dq.popleft()
+        top = s.pop()
+        if(top == '#'):
+            f.left = None
+        else:
+            f.left = TreeNode(int(top))
+            dq.append(f.left)
+
+        top = s.pop()
+        if(top == '#'):
+            f.right = None
+        else:
+            f.right = TreeNode(int(top))
+            dq.append(f.right)
+    return root
