@@ -1,0 +1,60 @@
+class Node:
+	def __init__(self):
+		self.links = [None, None]
+
+	def containsKey(self, ch):
+		return self.links[ch] != None
+
+	def put(self, ch, node):
+		self.links[ch] = node
+
+	def get(self, ch):
+		return self.links[ch]
+
+class Trie:
+	def __init__(self):
+		self.root = Node()
+
+	def insert(self, num):
+		node = self.root
+		for i in range(31, -1, -1):
+			bit = (num >> i) & 1
+			if(not node.containsKey(bit)):
+				node.put(bit, Node())
+			node = node.get(bit)
+
+	def findMaxXOR(self, num):
+		node = self.root 
+		ans = 0
+		for i in range(31, -1, -1):
+			bit = (num >> i) & 1
+			if(node.containsKey(1-bit)):
+				ans = ans | (1 << i)
+				node = node.get(1-bit)
+			else:
+				node = node.get(bit)
+		return ans
+
+
+def maxXorQueries(arr, queries):
+	n, q = len(arr), len(queries)
+	for i in range(q):
+		queries[i].append(i)
+	queries.sort(key = lambda x : x[1])
+	arr.sort()
+	j = 0
+	trie = Trie()
+	res = [0 for i in range(q)]
+	for i in range(q):
+		xi, ai, qIdx = queries[i]
+		while(j < n and arr[j] <= ai):
+			trie.insert(arr[j])
+			j += 1
+
+		if(j == 0):
+			res[qIdx] = -1
+		else:
+			res[qIdx] = trie.findMaxXOR(xi)
+	return res
+			
+
