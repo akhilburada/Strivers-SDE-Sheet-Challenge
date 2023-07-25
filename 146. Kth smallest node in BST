@@ -1,0 +1,42 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+'''
+    Following is the TreeNode class structure
+   
+    class   TreeNode :
+        def __init__(self, data) :
+            self.data = data
+            self.left = None
+            self.right = None
+
+        def __del__(self):
+            if self.left:
+                del self.left
+            if self.right:
+                del self.right
+
+'''
+global ans, kk
+ans = -1
+def helper(root):
+    global ans,kk
+    if not root or kk < 0:
+        return
+    helper(root.left)
+    kk -= 1
+    if(kk == 0):
+        ans = root.data
+        return
+    helper(root.right)
+
+    
+
+def kthSmallest(root, k):
+    global ans, kk
+    ans = -1
+    kk = k
+    helper(root)
+    return ans
