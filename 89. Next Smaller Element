@@ -1,0 +1,10 @@
+def nextSmallerElement(arr,n):
+    nse = [-1 for i in range(n)]
+    stk = []
+    for i in range(n):
+        while(stk and arr[stk[-1]] > arr[i]):
+            nse[stk[-1]] = arr[i]
+            stk.pop()
+
+        stk.append(i)
+    return nse
