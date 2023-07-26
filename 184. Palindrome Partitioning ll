@@ -1,0 +1,38 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+from sys import stdin, setrecursionlimit
+import sys
+setrecursionlimit(10**6)
+def isPalindrome(s):
+    return s == s[::-1]
+
+def helper(s, si, n, dp):
+    if(si == n):
+        return 0
+    if(dp[si] != -1):
+        return dp[si]
+    mn = 1e9
+    for i in range(si, n):
+        if(isPalindrome(s[si:i+1])):
+            mn = min(mn, 1+helper(s, i+1, n, dp))
+    dp[si] = mn
+    return mn
+
+
+def palindromePartitioning(string):
+    # Write your code here
+    dp = [-1 for i in range(len(string))]
+    return helper(string, 0, len(string), dp)-1
+
+
+# Main
+t = int(input())
+while t:
+    string = list(map(str, input()))
+    while(" " in string):
+        string.remove(" ")
+    print(palindromePartitioning(string))
+    t = t-1
