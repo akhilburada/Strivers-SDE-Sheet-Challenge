@@ -1,0 +1,31 @@
+global x8,y8
+x8 = [-1, -1, 0, 1, 1, 1, 0, -1]
+y8 = [0, 1, 1, 1, 0, -1, -1, -1]
+def dfs(mat, si, sj, n, m, vis):
+	global x8,y8
+	vis[si][sj] = 1
+	for d in range(8):
+		ni = si+x8[d]
+		nj = sj+y8[d]
+		if(ni >= 0 and nj >= 0 and ni < n and nj < m and mat[ni][nj] and vis[ni][nj]==0):
+			dfs(mat, ni, nj, n, m, vis)
+
+
+
+def findIslands(mat, n, m):
+	# Your code goe here.
+	vis = [[0 for j in range(m)] for i in range(n)]
+	ilands = 0
+	for i in range(n):
+		for j in range(m):
+			if(mat[i][j] and vis[i][j]==0):
+				#print('i =', i, 'j =', j)
+				#ilands += 1
+				dfs(mat, i, j, n, m, vis)
+				#for k in range(n):
+				#	print(vis[k])
+				ilands += 1
+				#print('ilands =', ilands)
+				#print()
+
+	return ilands
