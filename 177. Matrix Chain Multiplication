@@ -1,0 +1,19 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+def mcm(arr, i, j, dp):
+	if(i == j):
+		return 0
+	if(dp[i][j] != -1):
+		return dp[i][j]
+	mn = 1e9
+	for k in range(i, j):
+		mn = min(mn, mcm(arr, i, k, dp)+mcm(arr, k+1, j, dp)+ (arr[i-1]*arr[k]*arr[j]))
+	dp[i][j] = mn
+	return dp[i][j]
+		
+
+def matrixMultiplication(arr, n):
+	dp = [[-1 for j in range(n)] for i in range(n)]
+	return mcm(arr, 1, n-1, dp)
