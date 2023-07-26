@@ -1,0 +1,24 @@
+from collections import *
+import sys
+import heapq
+def dijkstra(vec, v, e, source):
+    #print(vec, v, e, source)
+    dis = [2147483647 for i in range(v)]
+    dis[0] = 0
+    adjList = [[] for i in range(v)]
+    for i in range(e):
+        a, b, weight = vec[i]
+        adjList[a].append([b, weight])
+        adjList[b].append([a, weight])
+
+    hq = []
+    heapq.heapify(hq)
+    heapq.heappush(hq, [0, 0]) #[distance, node]
+    while(hq):
+        distance, currNode = heapq.heappop(hq)
+        for i in range(len(adjList[currNode])):
+            if(adjList[currNode][i][1] + distance < dis[adjList[currNode][i][0]]):
+                dis[adjList[currNode][i][0]] = adjList[currNode][i][1] + distance
+                heapq.heappush(hq, [adjList[currNode][i][1] + distance, adjList[currNode][i][0]])
+
+    return dis
