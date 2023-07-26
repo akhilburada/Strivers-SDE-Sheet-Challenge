@@ -1,0 +1,39 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+import sys
+sys.setrecursionlimit(10**7)
+
+def helper(grid, si, sj, n, m, dp):
+    if(si == n-1 and sj == m-1):
+        return grid[si][sj]
+    if(si >= n or sj >= m):
+        return 10000000000
+    if(dp[si][sj] != -1):
+        return dp[si][sj]
+    #down 
+    down = grid[si][sj] + helper(grid, si+1, sj, n, m, dp)
+    #right
+    right = grid[si][sj] + helper(grid, si, sj+1, n, m, dp)
+    dp[si][sj] = min(down, right)
+    return dp[si][sj]
+
+
+def minSumPath(grid):
+    n,m=len(grid),len(grid[0])
+    dp = [[-1 for j in range(m)]for i in range(n)]
+    return helper(grid, 0, 0, n, m, dp)
+
+# Main.
+t = int(input())
+while (t > 0):
+    l = list(map(int, input().split()))
+    n,m = l[0], l[1]
+    grid = []
+    for i in range(n):
+        ll = list(map(int, input().split()))
+        grid.append(ll)
+    print(minSumPath(grid))
+    t -= 1
