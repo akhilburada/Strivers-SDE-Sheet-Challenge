@@ -1,0 +1,38 @@
+from sys import stdin
+import sys
+
+def helper(prices, si, n, dp):
+    if(si == 0):
+        return prices[0]*n
+    if dp[si][n] != -1:
+        return dp[si][n]
+    #leaveIt
+    #print('aaaaaa')
+    leaveIt = 0 + helper(prices, si-1, n, dp)
+    #takeIt
+    takeIt = -1
+    rodLen = si+1
+    if(rodLen <= n):
+        takeIt = prices[si] + helper(prices, si, n-rodLen, dp)
+    dp[si][n] = max(leaveIt, takeIt)
+    return dp[si][n]
+
+def cutRod(price, n):
+    dp = [[-1 for j in range(n+1)] for i in range(n+1)]
+    return helper(price, n-1, n, dp)
+
+# Taking input using fast I/O.
+def takeInput():
+    n = int(input())
+
+    price = list(map(int, input().strip().split(" ")))
+
+    return price, n
+
+
+# Main.
+t = int(input())
+while t:
+    price, n = takeInput()
+    print(cutRod(price, n))
+    t = t-1
