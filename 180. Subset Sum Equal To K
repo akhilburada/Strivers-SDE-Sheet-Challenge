@@ -1,0 +1,42 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+def helper(arr, si, n, k, dp):
+    if(k == 0):
+        return True
+    if(si == n):
+        return False
+
+    if(dp[si][k] != -1):
+        return dp[si][k]
+    #leaveIt
+    leaveIt = helper(arr, si+1, n, k, dp)
+    #takeIt
+    takeIt = False
+    if(arr[si] <= k):
+        takeIt = helper(arr, si+1, n, k-arr[si], dp)
+    dp[si][k] = takeIt or leaveIt
+    return dp[si][k]
+
+
+def subsetSumToK(n, k, arr):
+    dp = [[False for j in range(k+1)] for i in range(n+1)]
+    for i in range(n+1):
+        dp[i][0] = True
+    for si in range(n-1, -1, -1):
+        for j in range(k, -1, -1):
+            l = dp[si+1][j]
+            t = False
+            if(arr[si] <= j):
+                t = dp[si+1][j-arr[si]]
+            dp[si][j] = l or t 
+
+    return dp[0][k]
+
+    #return helper(arr, 0, n, k, dp)
+    
+    
+    
+
