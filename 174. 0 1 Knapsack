@@ -1,0 +1,22 @@
+def helper(si, values, weights, n, wt, dp):
+    if(si == n):
+        return 0
+    
+    if(dp[si][wt] != -1):
+        return dp[si][wt]
+    #leaveIt
+    leaveIt = 0 + helper(si+1, values, weights, n, wt, dp)
+    
+    #takeIt
+    takeIt = 0
+    if(weights[si] <= wt):
+        takeIt = values[si] + helper(si+1, values, weights, n, wt-weights[si], dp)
+
+    dp[si][wt] = max(leaveIt, takeIt)
+    return dp[si][wt]
+
+def maxProfit(values, weights, n, w):
+    dp = [[-1 for j in range(w+1)] for i in range(n+1)]
+    return helper(0, values, weights, n, w, dp)
+
+
