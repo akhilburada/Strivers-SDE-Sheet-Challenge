@@ -1,0 +1,68 @@
+from sys import stdin,setrecursionlimit
+setrecursionlimit(10**7)
+
+def helper(change, si, n, value, dp):
+    if(value == 0):
+        return 1
+    if(si == n):
+        return 0
+    if(dp[si][value] != -1):
+        return dp[si][value]
+    #leaveIt
+    leaveIt = helper(change, si+1, n, value, dp)
+    #takeIt
+    takeIt = 0
+    if(change[si] <= value):
+        takeIt = helper(change, si, n, value-change[si], dp)
+    dp[si][value] = leaveIt+takeIt
+    return dp[si][value]
+
+
+def countWaysToMakeChange(change, value):
+    n = len(change)
+    dp = [[-1 for j in range(value+1)] for i in range(n+1)]
+    return helper(change, 0, len(change), value, dp)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#taking inpit using fast I/O
+def takeInput() :
+    numDenominations = int(input())
+
+    denominations = list(map(int, stdin.readline().strip().split(" ")))
+
+    value = int(input())
+    return denominations, numDenominations, value
+
+
+#main
+denominations, numDenomination, value = takeInput()
+print((countWaysToMakeChange(denominations, value)))
