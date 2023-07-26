@@ -1,0 +1,35 @@
+
+from sys import stdin
+def helper(s, i, t, j, dp):
+	if(i == len(s) or j == len(t)):
+		return 0
+	if(dp[i][j] != -1):
+		return dp[i][j]
+	res = 0
+	if(s[i] == t[j]):
+		res = 1 + helper(s, i+1, t, j+1, dp)
+	else:
+		res = max(helper(s, i+1, t, j, dp), helper(s, i, t, j+1, dp))
+	dp[i][j] = res
+	return dp[i][j]
+
+
+def lcs(s, t):
+	dp = [[0 for j in range(len(t)+1)] for i in range(len(s)+1)]
+	#return helper(s, 0, t, 0, dp)
+	n,m = len(s),len(t)
+	for i in range(n-1, -1, -1):
+		for j in range(m-1, -1, -1):
+			if(s[i] == t[j]):
+				dp[i][j] = 1 + dp[i+1][j+1]
+			else:
+				dp[i][j] = max(dp[i+1][j], dp[i][j+1])
+	return dp[0][0]
+
+	#Your code goes here
+
+#main
+s = str(stdin.readline().rstrip())
+t = str(stdin.readline().rstrip())
+
+print(lcs(s, t))
