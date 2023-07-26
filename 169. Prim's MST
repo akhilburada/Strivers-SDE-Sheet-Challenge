@@ -1,0 +1,39 @@
+from collections import *
+from math import *
+import heapq
+
+def calculatePrimsMST(n, m, g):
+    # Write your code here.
+    # Return a 2-D list.
+    adjList = [[] for i in range(n)]
+    for i in range(m):
+        u,v,wt = g[i]
+        u -= 1
+        v -= 1
+        adjList[u].append([v,wt])
+        adjList[v].append([u,wt])
+    #for i in range(n):
+    #    print(adjList[i])
+    hq = []
+    heapq.heapify(hq)
+    heapq.heappush(hq, [0, 0, -1]) #[weight, node, parent]
+    sm = 0
+    vis = [0 for i in range(n)]
+    MST = []
+    while(hq):
+        weight, node, parent = heapq.heappop(hq)
+        if(vis[node]):
+            continue
+
+        vis[node] = 1
+        if(parent != -1):
+            MST.append([parent, node, weight])
+
+        sm += weight
+        for i in range(len(adjList[node])):
+            if(not vis[adjList[node][i][0]]):
+                heapq.heappush(hq, [adjList[node][i][1], adjList[node][i][0], node])
+
+    for i in range(len(MST)):
+        MST[i][0], MST[i][1] = 1+MST[i][0], 1+MST[i][1]
+    return MST
