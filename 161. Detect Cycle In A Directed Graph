@@ -1,0 +1,26 @@
+def helper(adjList, node, vis, pathVis):
+    vis[node] = 1
+    pathVis[node] = 1
+    for v in adjList[node]:
+        if not vis[v]:
+            if(helper(adjList, v, vis, pathVis)):
+                return True
+        elif(pathVis[v] != 0):
+            return True
+    pathVis[node] = 0
+    return False
+
+def detectCycleInDirectedGraph(n, edges):
+    adjList = [[] for i in range(n)]
+    for u,v in edges:
+        u-=1
+        v-=1
+        adjList[u].append(v)
+        
+    vis = [0 for i in range(n)]
+    pathVis = [0 for i in range(n)]
+    for i in range(n):
+        if not vis[i]:
+            if(helper(adjList, i, vis, pathVis)):
+                return True
+    return False
