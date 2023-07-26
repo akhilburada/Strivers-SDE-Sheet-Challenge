@@ -1,0 +1,23 @@
+import sys
+def floydWarshall(n, m, src, dest, edges):
+    adjMat = [[sys.maxsize for j in range(n)] for i in range(n)]
+    for i in range(n):
+        adjMat[i][i] = 0
+
+    #print(n,m,src,dest,edges)
+    #return 0
+    for i in range(m):
+        u,v,wt = edges[i]
+        adjMat[u-1][v-1] = wt
+
+    for k in range(n):
+        for i in range(n):
+            for j in range(n):
+                adjMat[i][j] = min(adjMat[i][j],
+                adjMat[i][k]+adjMat[k][j])
+
+    for i in range(n):
+        for j in range(n):
+            if(adjMat[i][j] > int(1e9)):
+                adjMat[i][j] = int(1e9)
+    return adjMat[src-1][dest-1]
