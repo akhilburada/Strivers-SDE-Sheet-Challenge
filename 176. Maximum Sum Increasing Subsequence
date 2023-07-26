@@ -1,0 +1,33 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+def helper(l1, si, prevIdx, n, dp):
+    if(si == n):
+        return 0
+    if(dp[si][prevIdx+1] != -1):
+        return dp[si][prevIdx+1]
+    #leaveIt
+    l = 0 + helper(l1, si+1, prevIdx, n, dp)
+    #takeIt
+    t = 0
+    if(prevIdx == -1 or l1[prevIdx] < l1[si]):
+        t = l1[si] + helper(l1, si+1, si, n, dp)
+    dp[si][prevIdx+1] = max(l, t)
+    return dp[si][prevIdx+1]
+
+def maxIncreasingDumbbellsSum(l1, n):
+    dp = [[0 for i in range(n+1)] for i in range(n+1)]
+    #return helper(rack, 0, -1, n, dp)
+    for si in range(n-1, -1, -1):
+        for prevIdx in range(si-1, -2, -1):
+            #leaveIt
+            l = 0 + dp[si+1][prevIdx+1]
+            #takeIt
+            t = 0
+            if(prevIdx == -1 or l1[prevIdx] < l1[si]):
+                t = l1[si] + dp[si+1][si+1]
+            dp[si][prevIdx+1] = max(l, t)
+    return dp[0][-1+1]
+            
