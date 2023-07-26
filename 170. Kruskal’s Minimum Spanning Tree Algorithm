@@ -1,0 +1,40 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+def findPar(node, parent):
+    if(node == parent[node]):
+        return node
+    parent[node] = findPar(parent[node], parent)
+    return parent[node]
+
+
+def unionBySize(u, v, parent, size):
+    ultimatePU = findPar(u, parent)
+    ultimatePV = findPar(v, parent)
+    if(ultimatePU == ultimatePV):
+        return False
+
+    if(size[ultimatePU] < size[ultimatePV]):
+        parent[ultimatePU] = ultimatePV
+        size[ultimatePV] += size[ultimatePU]
+
+    else:
+        parent[ultimatePV] = ultimatePU
+        size[ultimatePU] += size[ultimatePV]
+    return True
+
+
+
+
+def kruskalMST(n, m, graph):
+    graph.sort(key = lambda x : x[2])
+    parent = [i for i in range(n+1)]
+    size = [1 for i in range(n+1)]
+    sm = 0
+    for u,v,wt in graph:
+        if(unionBySize(u, v, parent, size)):
+            sm += wt
+    return sm
+
