@@ -1,0 +1,43 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+#using DFS+Stack
+'''
+def helper(adjList, node, v, stk, vis):
+    #print('node =', node, 'stk =', stk, 'vis =', vis)
+    vis[node] = 1
+    for i in range(len(adjList[node])):
+        val = adjList[node][i]
+        #if(val < v):
+        if(vis[adjList[node][i]] == 0):
+            #print('we r inside if')
+            helper(adjList, adjList[node][i], v, stk, vis)
+    stk.append(node)
+'''
+
+def topologicalSort(edges, v, e):
+    adjList = [[] for i in range(v)]
+    adj = [[] for i in range(v)]
+    inDegree = [0 for i in range(v)]
+    for i in range(e):
+        adjList[edges[i][1]].append(edges[i][0])
+        adj[edges[i][0]].append(edges[i][1])
+
+    dq = deque()
+    for i in range(v):
+        inDegree[i] = len(adjList[i])
+        if(inDegree[i] == 0):
+            dq.append(i)
+
+    res = []
+    while(dq):
+        f = dq.popleft()
+        res.append(f)
+        for i in range(len(adj[f])):
+            inDegree[adj[f][i]] -= 1
+            if(inDegree[adj[f][i]] == 0):
+                dq.append(adj[f][i])
+
+    return res
+    
