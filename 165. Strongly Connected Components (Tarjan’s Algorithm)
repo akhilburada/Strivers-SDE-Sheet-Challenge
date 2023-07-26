@@ -1,0 +1,49 @@
+def dfs(adjList, node, vis, stk):
+    vis[node] = 1
+    for neighour in adjList[node]:
+        if not vis[neighour]:
+            dfs(adjList, neighour, vis, stk)
+    stk.append(node)
+
+def dfs3(adjListRev, node, vis, path):
+    vis[node] = 1
+    path.append(node)
+    for neighour in adjListRev[node]:
+        if not vis[neighour]:
+            dfs3(adjListRev, neighour, vis, path)
+
+
+def stronglyConnectedComponents(n, edges):
+    # Write your code here
+    adjList = [[] for i in range(n)]
+    for i in range(len(edges)):
+        u, v = edges[i]
+        adjList[u].append(v)
+
+    #STEP-1    sort the nodes
+    vis = [0 for i in range(n)]
+    stk = []
+    for i in range(n):
+        if(not vis[i]):
+            dfs(adjList, i, vis, stk)
+
+    #STEP-2    reverse the edges
+    adjListRev = [[] for i in range(n)]
+    for u in range(n):
+        vis[u] = 0
+        for v in adjList[u]:
+            adjListRev[v].append(u)
+    #print(adjList)
+    #print(adjListRev)
+    #STEP-3    Do a dfs
+    res = []
+    while(stk):
+        top = stk.pop()
+        if(not vis[top]):
+            path = []
+            dfs3(adjListRev, top, vis, path)
+            res.append(path)
+    #print(res)
+    return res
+
+
